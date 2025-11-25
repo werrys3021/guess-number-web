@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Угадай число - браузерная версия</title>
+    <title>Угадай число - IndexedDB</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -33,6 +33,7 @@
                 <div class="game-controls">
                     <input type="number" id="guessInput" min="1" max="100" placeholder="Введите число">
                     <button id="guessBtn" class="btn btn-primary">Проверить</button>
+                    <button id="hintBtn" class="btn btn-secondary">Подсказка (<span id="hintsCount">3</span>)</button>
                 </div>
 
                 <div class="game-messages">
@@ -41,6 +42,7 @@
                 </div>
 
                 <div class="game-actions">
+                    <button id="saveGameBtn" class="btn btn-primary">Сохранить игру</button>
                     <button id="newGameBtn" class="btn btn-secondary">Новая игра</button>
                     <button id="showHistoryBtn" class="btn btn-secondary">История игр</button>
                 </div>
@@ -54,9 +56,12 @@
                     <button class="filter-btn" data-filter="win">Победы</button>
                     <button class="filter-btn" data-filter="loose">Поражения</button>
                 </div>
+                
                 <div class="history-actions">
                     <button id="showStatsBtn" class="btn btn-primary">Статистика игроков</button>
+                    <button id="clearHistoryBtn" class="btn btn-secondary">Очистить историю</button>
                 </div>
+                
                 <div id="gamesList" class="games-list"></div>
                 <button id="backToGameBtn" class="btn btn-secondary">Назад к игре</button>
             </div>
@@ -78,8 +83,8 @@
         </main>
     </div>
 
-    <script src="js/storage/GameStorage.js"></script>
     <script src="js/model/GameModel.js"></script>
+    <script src="js/storage/GameStorage.js"></script>
     <script src="js/view/GameView.js"></script>
     <script src="js/app.js"></script>
 </body>

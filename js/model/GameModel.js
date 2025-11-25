@@ -6,6 +6,7 @@ class GameModel {
         this.attempts = [];
         this.gameWon = false;
         this.startTime = new Date();
+        this.endTime = null;
     }
 
     generateSecretNumber() {
@@ -20,32 +21,35 @@ class GameModel {
         const attemptCount = this.attempts.length + 1;
         
         if (attemptCount > this.maxAttempts) {
+            this.endTime = new Date();
             return { error: "Превышено максимальное количество попыток!" };
         }
 
         const attempt = {
             attempt: attemptCount,
             number: number,
-            result: ''
+            result: '',
+            timestamp: new Date()
         };
 
         if (number === this.secretNumber) {
             this.gameWon = true;
+            this.endTime = new Date();
             attempt.result = 'win';
             return { 
-                success: `Поздравляем! Вы угадали число ${this.secretNumber} за ${attemptCount} попыток!`,
+                success: `🎉 Поздравляем! Вы угадали число ${this.secretNumber} за ${attemptCount} попыток!`,
                 attempt: attempt
             };
         } else if (number < this.secretNumber) {
             attempt.result = 'greater';
             return { 
-                hint: "Больше!",
+                hint: "📈 Больше!",
                 attempt: attempt
             };
         } else {
             attempt.result = 'less';
             return { 
-                hint: "Меньше!",
+                hint: "📉 Меньше!",
                 attempt: attempt
             };
         }
@@ -53,6 +57,13 @@ class GameModel {
 
     addAttempt(attempt) {
         this.attempts.push(attempt);
+    }
+
+    getHint() {
+        const range = 15;
+        let min = Math.max(1, this.secretNumber - range);
+        let max = Math.min(this.maxNumber, this.secretNumber + range);
+        return `💡 Подсказка: число между ${min} и ${max}`;
     }
 
     isGameOver() {
@@ -83,7 +94,11 @@ class GameModel {
             attempts: this.attempts,
             won: this.gameWon,
             start_time: this.startTime,
-            end_time: new Date()
+            end_time: this.endTime || new Date()
         };
+    }
+
+    getRemainingAttempts() {
+        return this.maxAttempts - this.attempts.length;
     }
 }
